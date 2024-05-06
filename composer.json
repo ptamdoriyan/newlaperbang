@@ -1,0 +1,8 @@
+{
+
+	"require": {
+		"php": ">=5.3.7",
+		"phpoffice/phpword": "^0.18.3",
+		"chillerlan/php-qrcode": "^4.3"
+	}
+}
