@@ -88,7 +88,7 @@
 										<tr>
 											<td>Surat Pengantar</td>
 											<td>
-												<a href="#!" data-bs-toggle="modal" data-bs-target="#modalPdf" data-id="SuratPengantar/<?= $db->sp_perkara; ?>" class="text-decoration-none text-reset">
+												<a href="#!" data-bs-toggle="modal" data-bs-target="#modalPdfAdmin" data-id="SuratPengantar/<?= $db->sp_perkara; ?>" class="text-decoration-none text-reset">
 													<?= $db->sp_perkara; ?>
 												</a>
 											</td>
