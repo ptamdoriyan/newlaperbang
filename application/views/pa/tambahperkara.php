@@ -115,7 +115,7 @@
 							<div class="col-sm-10">
 								<div class="input-group">
 									<input type="text" class="form-control" name="nomor_surat_pengantar" required>
-									<span class="input-group-text"><?= $kode_surat_pa ?>/</span>
+									<span class="input-group-text">/<?= $kode_surat_pa ?></span>
 									<input type="text" name="kode_surat_pa" value="<?= $kode_surat_pa ?>" hidden>
 									<span class="input-group-text">/HK2.6/</span>
 									<input type="text" class="form-control" name="bulan_surat_pengantar" value="<?= date('m'); ?>">
