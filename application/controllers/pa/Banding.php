@@ -207,10 +207,13 @@ class Banding extends CI_Controller
 	{
 		//ambil nama user
 		$pengedit = $this->session->userdata('nama');
+		$new_name = time() . rand(1, 1000) . "_pengantar";
+
 
 		//config Upload
 		$config['upload_path']          = './files/SuratPengantar';
 		$config['allowed_types']        = 'pdf';
+		$config['file_name'] 			= $new_name;
 		$config['max_size']             = 5024;
 		$this->load->library('upload', $config);
 		$this->upload->initialize($config);
@@ -253,6 +256,8 @@ class Banding extends CI_Controller
 
 		$config['upload_path']          = './files/bundle_a';
 		$config['allowed_types']        = 'pdf';
+		$config['encrypt_name']        = true;
+		$config['remove_space']        = true;
 		$config['max_size']             = 80000;
 		$this->load->library('upload', $config);
 		$this->upload->initialize($config);
@@ -474,6 +479,8 @@ class Banding extends CI_Controller
 
 		$config['upload_path']          = "./files/bundle_b";
 		$config['allowed_types']        = 'pdf|rtf';
+		$config['encrypt_name']        = true;
+		$config['remove_space']        = true;
 		$config['max_size']             = 80024;
 		$this->load->library('upload', $config);
 		$this->upload->initialize($config);
