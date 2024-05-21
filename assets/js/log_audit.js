@@ -1,12 +1,11 @@
 $(document).ready(function () {
 
     //data table
-    const path = window.location.origin;
-    // const path = `${prapath}/laperbang/`;
-    console.log(path);
+	//base uri passing data dari header admin.
+    console.log(baseuri);
     //---Tampil data table kegiatan
     let list_perkara = $('#listperkara').DataTable({
-        "ajax": `${path}/admin/Admin/get_data_audittrail/`,
+        "ajax": `${baseuri}/admin/Admin/get_data_audittrail/`,
         "columns": [
             {
                 "data": null, "sortable": false,

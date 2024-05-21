@@ -223,8 +223,7 @@ class M_banding extends CI_model
 		$this->db->select('*');
 		$this->db->from('v_all_perkara');
 		$this->db->order_by('tgl_register', 'DESC');
-		$query = $this->db->get()->result();
-		return $query;
+		return $this->db->get()->result();
 	}
 
 	public function get_perkara_pp()

@@ -1,16 +1,11 @@
 $(document).ready(function () {
 
-    const path = window.location.origin;
-    // const path = `/`;
-    console.log(path);
-
-
     $(".clickable-row").on('click', function () {
         // window.location = $(this).data("href");
         let id = $(this).data('id')
         $.ajax({
             type: "POST",
-            url: `${path}/admin/admin/get_data_user`,
+            url: `${path}admin/admin/get_data_user`,
             data: {
                 id: id,
                 // email: email,
@@ -50,7 +45,7 @@ $(document).ready(function () {
             if (result.isConfirmed) {
                 $.ajax({
                     type: "POST",
-                    url: `${path}/admin/admin/del_user`,
+                    url: `${path}admin/admin/del_user`,
                     data: {
                         id: id
                     },
@@ -107,7 +102,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: `${path}/admin/admin/updateUser`,
+            url: `${path}admin/admin/updateUser`,
             data: {
                 id: id,
                 nama: nama,
@@ -161,7 +156,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: `${path}/admin/admin/addUser`,
+            url: `${path}admin/admin/addUser`,
             data: {
                 id: id,
                 nama: nama,

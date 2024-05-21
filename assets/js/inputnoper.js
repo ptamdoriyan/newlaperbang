@@ -2,12 +2,9 @@ $(document).ready(function () {
 
     console.log("ini inputt noper.js");
     //data table
-    const path = window.location.origin;
-    console.log(path);
-    // const prapath = window.location.origin;
-    // const path = `${prapath}/laperbangcharlie/`;
+	console.log(path);
     let list_perkara = $('#listperkara').DataTable({
-        "ajax": `${path}/admin/admin/get_data_banding`,
+        "ajax": `${path}admin/admin/get_data_banding`,
         "columns": [
             {
                 "data": null, "sortable": false,
@@ -73,7 +70,7 @@ $(document).ready(function () {
                     //kalo jadi simpan baru kase ba jalang ajax
                     $.ajax({
                         type: "POST",
-                        url: `${path}/admin/admin/updatenoper`,
+                        url: `${path}admin/admin/updatenoper`,
                         data: {
                             id_perkara: id_perkara,
                             tgl_reg_banding: tgl_reg_banding,
@@ -148,7 +145,7 @@ $(document).ready(function () {
                     if (value === 'Penunjukkan Panitera Pengganti') {
                         $.ajax({
                             type: "POST",
-                            url: `${path}/admin/admin/updateStatus`,
+                            url: `${path}admin/admin/updateStatus`,
                             data: {
                                 id_perkara: id_perkara,
                                 status_perkara: value,
@@ -168,7 +165,7 @@ $(document).ready(function () {
                     } else if (value === 'Penunjukan Majelis Hakim') {
                         $.ajax({
                             type: "POST",
-                            url: `${path}/admin/admin/updateStatus`,
+                            url: `${path}admin/admin/updateStatus`,
                             data: {
                                 id_perkara: id_perkara,
                                 status_perkara: value,
@@ -189,7 +186,7 @@ $(document).ready(function () {
                     else if (value === 'Pengiriman Salinan Putusan') {
                         $.ajax({
                             type: "POST",
-                            url: `${path}/admin/admin/updateStatus`,
+                            url: `${path}admin/admin/updateStatus`,
                             data: {
                                 id_perkara: id_perkara,
                                 status_perkara: value,
@@ -209,7 +206,7 @@ $(document).ready(function () {
                     } else {
                         $.ajax({
                             type: "POST",
-                            url: `${path}/admin/admin/updateStatus`,
+                            url: `${path}admin/admin/updateStatus`,
                             data: {
                                 id_perkara: id_perkara,
                                 status_perkara: value,
@@ -265,7 +262,7 @@ $(document).ready(function () {
     $('#listperkara').on('click', '.item_view', function () {
         let data = list_perkara.row($(this).parents('tr')).data();
         let id_perkara = data['id_perkara'];
-        window.location.href = `${path}/admin/admin/view_berkas_admin/${id_perkara}/`;
+        window.location.href = `${path}admin/admin/view_berkas_admin/${id_perkara}/`;
 
     });
 
