@@ -1,6 +1,17 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * @property session $session
+ * @property M_banding $m_banding
+ * @property db $db
+ * @property input $input
+ * @property upload $upload
+ */
+
+
+use CI_Controller;
+
 class Panitera_pengganti extends CI_Controller
 {
 
@@ -8,7 +19,7 @@ class Panitera_pengganti extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model("M_banding", "m_banding");
-		$this->load->helpers('notifputusan', 'notifsataus');
+		$this->load->helpers('notifputusan', 'notifstatus');
 		//usir user yang ga punya session
 		if (!$this->session->userdata('id')  || $this->session->userdata('role_id') != 5 && $this->session->userdata('role_id') != 4) {
 			redirect('auth');
