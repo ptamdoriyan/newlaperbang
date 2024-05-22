@@ -4,320 +4,276 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Panitera_pengganti extends CI_Controller
 {
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->load->model("M_banding", "m_banding");
-        //usir user yang ga punya session
-        if (!$this->session->userdata('id')  || $this->session->userdata('role_id') != 5 && $this->session->userdata('role_id') != 4 ) {
-            redirect('auth');
-        }
-    }
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model("M_banding", "m_banding");
+		$this->load->helpers('notifputusan', 'notifsataus');
+		//usir user yang ga punya session
+		if (!$this->session->userdata('id')  || $this->session->userdata('role_id') != 5 && $this->session->userdata('role_id') != 4) {
+			redirect('auth');
+		}
+	}
 
-    public function index()
-    {
-        $data['judul'] = 'Panitera Pengganti';
-        $data['css'] = 'dashboard_admin.css';
-        $data['js'] = 'view_pp.js';
+	public function index()
+	{
+		$data['judul'] = 'Panitera Pengganti';
+		$data['css'] = 'dashboard_admin.css';
+		$data['js'] = 'view_pp.js';
 
-        $this->load->view('panitera_pengganti/header', $data);
-        $this->load->view('panitera_pengganti/view_pp', $data);
-        $this->load->view('panitera_pengganti/footer', $data);
-    }
+		$this->load->view('panitera_pengganti/header', $data);
+		$this->load->view('panitera_pengganti/view_pp', $data);
+		$this->load->view('panitera_pengganti/footer', $data);
+	}
 
-    public function get_data_banding()
-    {
-        $role_id = $this->session->userdata('role_id');
-        if ($role_id == "4") {
-            $data = $this->m_banding->DataBanding();
-        }else {
-            $data = $this->m_banding->get_perkara_pp();
-        }
-        
-        $result =  [
-            'response' => 'success',
-            'code' => 600,
-            'data' => $data
+	public function get_data_banding()
+	{
+		$role_id = $this->session->userdata('role_id');
+		if ($role_id == "4") {
+			$data = $this->m_banding->DataBanding();
+		} else {
+			$data = $this->m_banding->get_perkara_pp();
+		}
 
-        ];
-        echo json_encode($result);
-    }
+		$result =  [
+			'response' => 'success',
+			'code' => 600,
+			'data' => $data
 
-    public function view_berkas_admin($id)
-    {
-        //konten
-        $data['judul'] = 'Panitera Pengganti';
-        $data['css'] = 'dashboard_admin.css';
-        $data['js'] = 'view_berkas_admin.js';
+		];
+		echo json_encode($result);
+	}
 
-        $data['detail_berkas'] = $this->db->get_where('v_perkara_pp', ['id_perkara' => $id])->result_object();
-        $data['header'] = $this->db->get_where('v_header_perkara', ['id_perkara' => $id])->result_object();
+	public function view_berkas_admin($id)
+	{
+		//konten
+		$data['judul'] = 'Panitera Pengganti';
+		$data['css'] = 'dashboard_admin.css';
+		$data['js'] = 'view_berkas_admin.js';
 
-        $this->load->view('panitera_pengganti/header', $data);
-        $this->load->view('panitera_pengganti/view_berkas_admin', $data);
-        $this->load->view('panitera_pengganti/footer', $data);
-    }
+		$data['detail_berkas'] = $this->db->get_where('v_perkara_pp', ['id_perkara' => $id])->result_object();
+		$data['header'] = $this->db->get_where('v_header_perkara', ['id_perkara' => $id])->result_object();
 
-    public function updatenoper()
-    {
+		$this->load->view('panitera_pengganti/header', $data);
+		$this->load->view('panitera_pengganti/view_berkas_admin', $data);
+		$this->load->view('panitera_pengganti/footer', $data);
+	}
 
-        $pengedit = $this->session->userdata('nama');
+	public function updatenoper()
+	{
 
-        $no_perkara_banding = $this->input->post('nomor_perkara_banding');
-        $tahun_perkara_banding = $this->input->post('tahun_perkara_banding');
-        $nomor_perkara_fix = $no_perkara_banding . '/' . 'Pdt.G/' . $tahun_perkara_banding . '/PTA.Mdo';
-        $id_perkara = $this->input->post('id_perkara');
-        $tgl_reg_banding = $this->input->post('tgl_reg_banding');
-        $data = [
-            'id_perkara' => $id_perkara,
-            'tgl_reg_banding' => $tgl_reg_banding,
-            'no_perkara_banding' => $nomor_perkara_fix
-        ];
+		$pengedit = $this->session->userdata('nama');
 
-        $this->db->where('id_perkara', $id_perkara);
-        $data =  $this->db->update('list_perkara', $data);
+		$no_perkara_banding = $this->input->post('nomor_perkara_banding');
+		$tahun_perkara_banding = $this->input->post('tahun_perkara_banding');
+		$nomor_perkara_fix = $no_perkara_banding . '/' . 'Pdt.G/' . $tahun_perkara_banding . '/PTA.Mdo';
+		$id_perkara = $this->input->post('id_perkara');
+		$tgl_reg_banding = $this->input->post('tgl_reg_banding');
+		$data = [
+			'id_perkara' => $id_perkara,
+			'tgl_reg_banding' => $tgl_reg_banding,
+			'no_perkara_banding' => $nomor_perkara_fix
+		];
 
-        $audittrail = array(
-            'log_id' => '',
-            'isi_log' => "User <b>" . $pengedit . "</b> telah input nomor perkara banding pada id perkara <b>" . $id_perkara . "</b>",
-            'nama_log' => $pengedit
-        );
+		$this->db->where('id_perkara', $id_perkara);
+		$data =  $this->db->update('list_perkara', $data);
 
-        $this->db->set('rekam_log', 'NOW()', FALSE);
-        $this->db->insert('log_audittrail', $audittrail);
+		$audittrail = array(
+			'log_id' => '',
+			'isi_log' => "User <b>" . $pengedit . "</b> telah input nomor perkara banding pada id perkara <b>" . $id_perkara . "</b>",
+			'nama_log' => $pengedit
+		);
 
-        json_encode($data);
-    }
+		$this->db->set('rekam_log', 'NOW()', FALSE);
+		$this->db->insert('log_audittrail', $audittrail);
 
-    public function updateStatus()
-    {
+		json_encode($data);
+	}
 
-        $pengedit = $this->session->userdata('nama');
+	public function updateStatus()
+	{
 
-        $status_perkara = $this->input->post('status_perkara');
-        $id_perkara = $this->input->post('id_perkara');
-        $no_perkara = $this->input->post('no_perkara_banding');
-        $tgl_reg_banding = $this->input->post('tgl_reg_banding');
-        $target1 = $this->input->post('no_hp_penggugat');
-        $target2 = $this->input->post('no_hp_tergugat');
-        $target = $target1 . "," . $target2;
+		$pengedit = $this->session->userdata('nama');
 
-        $data = [
-            'id_perkara' => $id_perkara,
-            'status_perkara' => $status_perkara,
-            'no_perkara_banding' => $no_perkara,
-            'tgl_reg_banding' => $tgl_reg_banding,
-            'no_hp_penggugat' => $target,
-            'no_hp_tergugat' => $target2
-        ];
+		$status_perkara = $this->input->post('status_perkara');
+		$id_perkara = $this->input->post('id_perkara');
+		$no_perkara = $this->input->post('no_perkara_banding');
+		$tgl_reg_banding = $this->input->post('tgl_reg_banding');
+		$target1 = $this->input->post('no_hp_penggugat');
+		$target2 = $this->input->post('no_hp_tergugat');
+		$target = $target1 . "," . $target2;
 
-        $this->db->where('id_perkara', $id_perkara);
-        $array = $this->db->update('list_perkara', $data);
+		$data = [
+			'id_perkara' => $id_perkara,
+			'status_perkara' => $status_perkara,
+			'no_perkara_banding' => $no_perkara,
+			'tgl_reg_banding' => $tgl_reg_banding,
+			'no_hp_penggugat' => $target,
+			'no_hp_tergugat' => $target2
+		];
 
-        $audittrail = array(
-            'log_id' => '',
-            'isi_log' => "User <b>" . $pengedit . "</b> telah input status perkara banding pada id perkara <b>" . $id_perkara . "</b>",
-            'nama_log' => $pengedit
-        );
+		$this->db->where('id_perkara', $id_perkara);
+		$array = $this->db->update('list_perkara', $data);
+		json_encode($array);
 
-        $this->db->set('rekam_log', 'NOW()', FALSE);
-        $this->db->insert('log_audittrail', $audittrail);
+		$audittrail = array(
+			'log_id' => '',
+			'isi_log' => "User <b>" . $pengedit . "</b> telah input status perkara banding pada id perkara <b>" . $id_perkara . "</b>",
+			'nama_log' => $pengedit
+		);
 
-        if ($status_perkara == "Pengiriman Salinan Putusan") {
+		$this->db->set('rekam_log', 'NOW()', FALSE);
+		$this->db->insert('log_audittrail', $audittrail);
 
-//API Notifikasi WA  
-$token = "sAZJpFT7ntDM4+!gJ+h-";
-$message = "Assamualaikum Wr Wb. 
-Berikut informasi perkara banding nomor: 
-" . $no_perkara . "
+		//kirim pesan Whatsapp
+		if ($status_perkara == "Pengiriman Salinan Putusan") {
+			# sini panggil helper notifputusan
+			notifputusan($target, $no_perkara, $tgl_reg_banding, $status_perkara);
+		} else {
+			# sini panggil helper notifstatus
+			notifstatus($target, $no_perkara, $tgl_reg_banding, $status_perkara);
+		}
 
-1. Telah terdaftar pada PTA Manado tanggal: " . $tgl_reg_banding . "
-2. Dengan status saat ini: " . $status_perkara . " ke Pengadilan Tingkat Pertama
+		//API Notifikasi WA  
 
-Ini adalah sistem pemberitahuan otomatis perkara banding anda.
-___________________________________
-Ketik informasi untuk mengetahui perintah lainnya. 
-SIPEKA PTA Manado";
-        }else {
-           
-$token = "sAZJpFT7ntDM4+!gJ+h-";
-$message = "Assamualaikum Wr Wb. 
-Berikut informasi perkara banding nomor: 
-" . $no_perkara . "
 
-1. Telah terdaftar pada PTA Manado tanggal: " . $tgl_reg_banding . "
-2. Dengan status saat ini: " . $status_perkara . "
+	}
 
-Ini adalah sistem pemberitahuan otomatis perkara banding anda.
-____________________________________    
-Ketik informasi untuk mengetahui perintah lainnya. 
-SIPEKA PTA Manado";
-        }
+	public function uploadPutusan()
+	{
 
-        $curl = curl_init();
+		$pengedit = $this->session->userdata('nama');
 
-        curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://api.fonnte.com/send',
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
+		$config['upload_path']          = './assets/files/putusan';
+		$config['allowed_types']        = 'doc|docx|pdf';
+		$config['max_size']             = 5000;
+		$this->load->library('upload', $config);
+		$this->upload->initialize($config);
 
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS => array(
-        'target' => $target,
-        'message' => $message,
-        'delay' => '2'
-        ),
-        CURLOPT_HTTPHEADER => array(
-            "Authorization: $token"
-        ),
-        ));
+		if (($_FILES['file_putusan']['name'] != null)) {
+			if ($this->upload->do_upload('file_putusan')) {
+				$putusan_banding = $this->upload->data("file_name");
+				$id_perkara = $this->input->post('id_perkara');
+				$id_user = $this->input->post('id_user');
 
-        $response = curl_exec($curl);
+				$data = [
+					'id_perkara' => $id_perkara,
+					'nama_file' => $putusan_banding,
+					'id_user' => $id_user
+				];
+				$this->db->where('id_perkara', $id_perkara);
+				$this->db->update('list_perkara', $data);
 
-        curl_close($curl);
-        // echo $response;
-        json_encode($array);
-    }
+				$this->session->set_flashdata('flash', 'Upload berhasil');
 
-    public function uploadPutusan()
-    {
+				$audittrail = array(
+					'log_id' => '',
+					'isi_log' => "User <b>" . $pengedit . "</b> telah upload putusan perkara banding pada id perkara <b>" . $id_perkara . "</b>",
+					'nama_log' => $pengedit
+				);
 
-        $pengedit = $this->session->userdata('nama');
+				$this->db->set('rekam_log', 'NOW()', FALSE);
+				$this->db->insert('log_audittrail', $audittrail);
 
-        $config['upload_path']          = './assets/files/putusan';
-        $config['allowed_types']        = 'doc|docx|pdf';
-        $config['max_size']             = 5000;
-        $this->load->library('upload', $config);
-        $this->upload->initialize($config);
+				redirect('Panmud');
+				// $this->db->set('putusan_banding', $putusan_banding);
+			} else {
+				$this->session->set_flashdata('msg', 'Upload file gagal, ekstensi file harus pdf dan ukuran tidak boleh lebih dari 5 mb');
+				// redirect('banding/');
+			}
+		} else {
+			$this->session->set_flashdata('msg', 'Tidak ada file yang di upload');
+			// redirect('banding/');
+		}
+	}
 
-        if (($_FILES['file_putusan']['name'] != null)) {
-            if ($this->upload->do_upload('file_putusan')) {
-                $putusan_banding = $this->upload->data("file_name");
-                $id_perkara = $this->input->post('id_perkara');
-                $id_user = $this->input->post('id_user');
+	public function upload_pp()
+	{
+		$pengedit = $this->session->userdata('nama');
 
-                $data = [
-                    'id_perkara' => $id_perkara,
-                    'nama_file' => $putusan_banding,
-                    'id_user' => $id_user
-                ];
-                $this->db->where('id_perkara', $id_perkara);
-                $this->db->update('list_perkara', $data);
+		$id_perkara = $this->input->post('id_perkara');
+		$id_user_pp = $this->input->post('id_user_pp');
 
-                $this->session->set_flashdata('flash', 'Upload berhasil');
+		$data = [
+			'id_perkara' => $id_perkara,
+			'id_user_pp' => $id_user_pp
+		];
+		$this->db->where('id_perkara', $id_perkara);
+		$this->db->update('penunjukan_pp', $data);
 
-                $audittrail = array(
-                    'log_id' => '',
-                    'isi_log' => "User <b>" . $pengedit . "</b> telah upload putusan perkara banding pada id perkara <b>" . $id_perkara . "</b>",
-                    'nama_log' => $pengedit
-                );
+		$this->session->set_flashdata('flash', 'Penunjukan Panitera Pengganti');
 
-                $this->db->set('rekam_log', 'NOW()', FALSE);
-                $this->db->insert('log_audittrail', $audittrail);
+		$audittrail = array(
+			'log_id' => '',
+			'isi_log' => "User <b>" . $pengedit . "</b> telah memilih panitera pengganti pada perkara <b>" . $id_perkara . "</b>",
+			'nama_log' => $pengedit
+		);
 
-                redirect('Panmud');
-                // $this->db->set('putusan_banding', $putusan_banding);
-            } else {
-                $this->session->set_flashdata('msg', 'Upload file gagal, ekstensi file harus pdf dan ukuran tidak boleh lebih dari 5 mb');
-                // redirect('banding/');
-            }
-        } else {
-            $this->session->set_flashdata('msg', 'Tidak ada file yang di upload');
-            // redirect('banding/');
-        }
-    }
+		$this->db->set('rekam_log', 'NOW()', FALSE);
+		$this->db->insert('log_audittrail', $audittrail);
 
-    public function upload_pp()
-    {
-        $pengedit = $this->session->userdata('nama');
+		redirect('Panmud');
+	}
 
-        $id_perkara = $this->input->post('id_perkara');
-        $id_user_pp = $this->input->post('id_user_pp');
+	public function pilih_mh()
+	{
+		$pengedit = $this->session->userdata('nama');
 
-        $data = [
-            'id_perkara' => $id_perkara,
-            'id_user_pp' => $id_user_pp
-        ];
-        $this->db->where('id_perkara', $id_perkara);
-        $this->db->update('penunjukan_pp', $data);
+		// $id_pmh = $this->input->post('id_pmh');
+		$id_perkara = $this->input->post('id_perkara');
 
-        $this->session->set_flashdata('flash', 'Penunjukan Panitera Pengganti');
+		$majelis_hakim = $this->input->post('majelis_hakim');
 
-        $audittrail = array(
-            'log_id' => '',
-            'isi_log' => "User <b>" . $pengedit . "</b> telah memilih panitera pengganti pada perkara <b>" . $id_perkara . "</b>",
-            'nama_log' => $pengedit
-        );
 
-        $this->db->set('rekam_log', 'NOW()', FALSE);
-        $this->db->insert('log_audittrail', $audittrail);
+		$data = [
+			// 'id_pmh' => $id_pmh,
+			'id_perkara' => $id_perkara,
+			'majelis_hakim' => $majelis_hakim,
+		];
+		$this->db->where('id_perkara', $id_perkara);
+		$this->db->update('pmh', $data);
 
-        redirect('Panmud');
-    }
+		$audittrail = array(
+			'log_id' => '',
+			'isi_log' => "User <b>" . $pengedit . "</b> telah memilih majelis hakim pada id perkara <b>" . $id_perkara . "</b>",
+			'nama_log' => $pengedit
+		);
 
-    public function pilih_mh()
-    {
-        $pengedit = $this->session->userdata('nama');
+		$this->db->set('rekam_log', 'NOW()', FALSE);
+		$this->db->insert('log_audittrail', $audittrail);
 
-        // $id_pmh = $this->input->post('id_pmh');
-        $id_perkara = $this->input->post('id_perkara');
+		$this->session->set_flashdata('flash', 'Penunjukkan Majelis Hakim Berhasil');
+		redirect('panmud/panmud/inputNoper');
+	}
 
-        $majelis_hakim = $this->input->post('majelis_hakim');
-       
 
-        $data = [
-            // 'id_pmh' => $id_pmh,
-            'id_perkara' => $id_perkara,
-            'majelis_hakim' => $majelis_hakim,
-        ];
-        $this->db->where('id_perkara', $id_perkara);
-        $this->db->update('pmh', $data);
+	public function get_log_inbox()
+	{
 
-        $audittrail = array(
-            'log_id' => '',
-            'isi_log' => "User <b>" . $pengedit . "</b> telah memilih majelis hakim pada id perkara <b>" . $id_perkara . "</b>",
-            'nama_log' => $pengedit
-        );
+		$this->db->count_all_results('log_inbox');
+		$data = $this->db->get_where('log_inbox', ['is_read' => 1])->result();
+		$total = $this->db->count_all_results();
+		$result =  [
+			'response' => 'success',
+			'code' => 600,
+			'data' => $data,
+			'total' => $total
 
-        $this->db->set('rekam_log', 'NOW()', FALSE);
-        $this->db->insert('log_audittrail', $audittrail);
+		];
+		echo json_encode($result);
+	}
+	//--end
 
-        $this->session->set_flashdata('flash', 'Penunjukkan Majelis Hakim Berhasil');
-        redirect('panmud/panmud/inputNoper');
-    }
-    
-
-    public function get_log_inbox()
-    {
-
-        $this->db->count_all_results('log_inbox');
-        $data = $this->db->get_where('log_inbox', ['is_read' => 1])->result();
-        $total = $this->db->count_all_results();
-        $result =  [
-            'response' => 'success',
-            'code' => 600,
-            'data' => $data,
-            'total' => $total
-
-        ];
-        echo json_encode($result);
-    }
-    //--end
-
-    //function saat klik log inbox
-    public function click_log_inbox()
-    {
-        $id = $this->input->post('id');
-        $update = [
-            'is_read' => 2
-        ];
-        $this->db->where('id_log_inbox', $id);
-        $data = $this->db->update('log_inbox', $update);
-        echo json_encode($data);
-    }
-    //--end
+	//function saat klik log inbox
+	public function click_log_inbox()
+	{
+		$id = $this->input->post('id');
+		$update = [
+			'is_read' => 2
+		];
+		$this->db->where('id_log_inbox', $id);
+		$data = $this->db->update('log_inbox', $update);
+		echo json_encode($data);
+	}
+	//--end
 }
