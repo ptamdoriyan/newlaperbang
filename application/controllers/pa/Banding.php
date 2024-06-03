@@ -183,6 +183,23 @@ class Banding extends CI_Controller
 		}
 	}
 
+	public function deletePerkara($id)
+	{
+		$this->banding->deletePerkara($id);
+		$this->session->set_flashdata('message', 'Data Perkara Berhasil di Delete !');
+
+		$audittrail = array(
+			'log_id' => '',
+			'isi_log' => "User <b>" . $pengedit . "</b> telah update Menghapus perkara",
+			'nama_log' => $pengedit
+		);
+
+		$this->db->set('rekam_log', 'NOW()', FALSE);
+		$this->db->insert('log_audittrail', $audittrail);
+
+		redirect('pa/banding/banding');
+	}
+
 	public function uploadberkas($id)
 	{
 

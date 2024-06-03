@@ -218,6 +218,11 @@ class M_banding extends CI_model
 		return $this->db->update('list_perkara', $data);
 	}
 
+	public function deletePerkara($id)
+	{
+		return $this->db->delete('list_perkara', ['id_perkara' => $id]);
+	}
+
 	public function DataBanding()
 	{
 		$this->db->select('*');
