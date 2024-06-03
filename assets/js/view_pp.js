@@ -1,13 +1,10 @@
 $(document).ready(function () {
 
     //data table
-    const path = window.location.origin;
-    // const path = `${prapath}/laperbang/Panitera_pengganti/`;
-    // const path = `../../Panitera_pengganti/`;
-    console.log(path);
     //---Tampil data table kegiatan
+	console.log(path);
     let list_perkara = $('#listperkara').DataTable({
-        "ajax": `${path}/pp/panitera_pengganti/get_data_banding`,
+        "ajax": `${path}pp/panitera_pengganti/get_data_banding`,
         "columns": [
             {
                 "data": null, "sortable": false,
@@ -71,7 +68,7 @@ $(document).ready(function () {
                     //kalo jadi simpan baru kase ba jalang ajax
                     $.ajax({
                         type: "POST",
-                        url: `${path}/pp/panitera_pengganti/updatenoper`,
+                        url: `${path}pp/panitera_pengganti/updatenoper`,
                         data: {
                             id_perkara: id_perkara,
                             tgl_reg_banding: tgl_reg_banding,
@@ -140,7 +137,7 @@ $(document).ready(function () {
                     if (value === 'Penunjukan Majelis Hakim') {
                         $.ajax({
                             type: "POST",
-                            url: `${path}/pp/panitera_pengganti/updateStatus`,
+                            url: `${path}pp/panitera_pengganti/updateStatus`,
                             data: {
                                 id_perkara: id_perkara,
                                 status_perkara: value,
@@ -160,7 +157,7 @@ $(document).ready(function () {
                     } else if (value === 'Penunjukkan Panitera Pengganti') {
                         $.ajax({
                             type: "POST",
-                            url: `${path}/pp/panitera_pengganti/updateStatus`,
+                            url: `${path}pp/panitera_pengganti/updateStatus`,
                             data: {
                                 id_perkara: id_perkara,
                                 status_perkara: value,
@@ -180,7 +177,7 @@ $(document).ready(function () {
                     } else if (value === 'Pengiriman Salinan Putusan') {
                         $.ajax({
                             type: "POST",
-                            url: `${path}/pp/panitera_pengganti/updateStatus`,
+                            url: `${path}pp/panitera_pengganti/updateStatus`,
                             data: {
                                 id_perkara: id_perkara,
                                 status_perkara: value,
@@ -201,7 +198,7 @@ $(document).ready(function () {
                     else {
                         $.ajax({
                             type: "POST",
-                            url: `${path}/pp/panitera_pengganti/updateStatus`,
+                            url: `${path}pp/panitera_pengganti/updateStatus`,
                             data: {
                                 id_perkara: id_perkara,
                                 status_perkara: value,
@@ -252,7 +249,7 @@ $(document).ready(function () {
     $('#listperkara').on('click', '.item_view', function () {
         let data = list_perkara.row($(this).parents('tr')).data();
         let id_perkara = data['id_perkara'];
-        window.location.href = `${path}/pp/panitera_pengganti/view_berkas_admin/${id_perkara}/`;
+        window.location.href = `${path}pp/panitera_pengganti/view_berkas_admin/${id_perkara}/`;
 
     });
 

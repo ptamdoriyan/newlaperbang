@@ -9,9 +9,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @property upload $upload
  */
 
-
-use CI_Controller;
-
 class Panitera_pengganti extends CI_Controller
 {
 
@@ -19,7 +16,6 @@ class Panitera_pengganti extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model("M_banding", "m_banding");
-		$this->load->helpers('notifputusan', 'notifstatus');
 		//usir user yang ga punya session
 		if (!$this->session->userdata('id')  || $this->session->userdata('role_id') != 5 && $this->session->userdata('role_id') != 4) {
 			redirect('auth');
@@ -125,7 +121,7 @@ class Panitera_pengganti extends CI_Controller
 
 		$this->db->where('id_perkara', $id_perkara);
 		$array = $this->db->update('list_perkara', $data);
-		json_encode($array);
+
 
 		$audittrail = array(
 			'log_id' => '',
@@ -145,9 +141,7 @@ class Panitera_pengganti extends CI_Controller
 			notifstatus($target, $no_perkara, $tgl_reg_banding, $status_perkara);
 		}
 
-		//API Notifikasi WA  
-
-
+		json_encode($array);
 	}
 
 	public function uploadPutusan()
@@ -258,6 +252,7 @@ class Panitera_pengganti extends CI_Controller
 	}
 
 
+	//function untuk inbox
 	public function get_log_inbox()
 	{
 

@@ -221,6 +221,7 @@ $(document).ready(function () {
                             }
                         });
                         Swal.fire('Status Perkara Berhasil Dirubah', '', 'success')
+						list_perkara.ajax.reload();
                     }
                 })
             }

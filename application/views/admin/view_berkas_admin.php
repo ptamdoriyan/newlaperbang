@@ -67,11 +67,6 @@
 	</div>
 
 
-	<?php
-	var_dump($detail_berkas);
-	die;
-	?>
-
 	<div class="row mt-4 mb-3">
 		<div class="col">
 			<?php foreach ($detail_berkas as $db) : ?>
