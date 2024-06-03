@@ -182,8 +182,12 @@ $nomor_perkara_explode = explode('/', $nomor_perkara);
 
 
 						<button type="submit" class="btn btn-success">Kirim</button>
-						<a href="<?= base_url('pa/banding/deleteperkara/') . $list_perkara[0]['id_perkara']; ?>" class="hapus btn btn-danger">Hapus</a>
 
+						<?php if ($list_perkara[0]['status_perkara'] == null) : ?>
+
+							<a href="<?= base_url('pa/banding/deleteperkara/') . $list_perkara[0]['id_perkara']; ?>" class="hapus btn btn-danger">Hapus</a>
+
+						<?php endif; ?>
 
 					</form> <!-- end form addBerkas -->
 				</div>
