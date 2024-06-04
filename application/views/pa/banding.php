@@ -33,13 +33,16 @@
 									<td><?php echo $lhs['tgl_register']; ?></td>
 									<td><?php echo $lhs['status_perkara']; ?></td>
 									<td>
-										<a class="text-decoration-none" href="<?= base_url('pa/banding/uploadberkas/') . $lhs['id_perkara'] ?>">
+
+										<?php $encode = $this->encryption->encrypt($lhs['id_perkara']);  ?>
+										<?php $id_perkaracode = urlencode($encode); ?>
+										<a class="text-decoration-none" href="<?= base_url('pa/banding/uploadberkas/') . $id_perkaracode; ?>">
 											<i class="fas fa-fw fa-upload text-success" title="Unggah Berkas"></i>
 										</a>
-										<a class="text-decoration-none" href="<?= base_url('pa/banding/updateperkara/') . $lhs['id_perkara']; ?>">
+										<a class="text-decoration-none" href="<?= base_url('pa/banding/updateperkara/') . $id_perkaracode; ?>">
 											<i class="fas fa-pen-square text-success" title="Edit"></i>
 										</a>
-										<a class="text-decoration-none" href="<?= base_url('pa/SuratPengantar/downloadsurat/') . $lhs['id_perkara'] ?>">
+										<a class="text-decoration-none" href="<?= base_url('pa/SuratPengantar/downloadsurat/') . $id_perkaracode; ?>">
 											<i class="fas fa-fw fa-file-download text-success" title="Download Surat Pengantar"></i>
 										</a>
 									</td>

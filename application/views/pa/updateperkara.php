@@ -184,8 +184,8 @@ $nomor_perkara_explode = explode('/', $nomor_perkara);
 						<button type="submit" class="btn btn-success">Kirim</button>
 
 						<?php if ($list_perkara[0]['status_perkara'] == null) : ?>
-
-							<a href="<?= base_url('pa/banding/deleteperkara/') . $list_perkara[0]['id_perkara']; ?>" class="hapus btn btn-danger">Hapus</a>
+							<?php $id_perkara_encode = urlencode($this->encryption->encrypt($list_perkara[0]['id_perkara'])); ?>
+							<a href="<?= base_url('pa/banding/deleteperkara/') . $id_perkara_encode; ?>" class="hapus btn btn-danger">Hapus</a>
 
 						<?php endif; ?>
 

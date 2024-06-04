@@ -102,8 +102,9 @@ class Banding extends CI_Controller
 		}
 	}
 
-	public function updateperkara($id_perkara)
+	public function updateperkara($id)
 	{
+		$id_perkara = ($this->encryption->decrypt(urldecode($id)));
 
 		$data['judul'] = 'Perkara Banding';
 		//ambil data perkara
@@ -183,8 +184,9 @@ class Banding extends CI_Controller
 		}
 	}
 
-	public function deletePerkara($id)
+	public function deletePerkara($id_perkara)
 	{
+		$id = ($this->encryption->decrypt(urldecode($id_perkara)));
 		$this->banding->deletePerkara($id);
 		$this->session->set_flashdata('message', 'Data Perkara Berhasil di Delete !');
 
@@ -200,9 +202,10 @@ class Banding extends CI_Controller
 		redirect('pa/banding/banding');
 	}
 
-	public function uploadberkas($id)
+	public function uploadberkas($id_perkara)
 	{
 
+		$id = $this->encryption->decrypt(urldecode($id_perkara));
 		$data['judul'] = 'Perkara Banding';
 		//ambil data
 		$data['perkara'] = $this->db->get_where('list_perkara', ['id_perkara' => $id])->result_array();
