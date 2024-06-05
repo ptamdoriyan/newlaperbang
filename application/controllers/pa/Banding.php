@@ -269,6 +269,54 @@ class Banding extends CI_Controller
 		redirect('pa/banding/banding');
 	}
 
+	function tandaterimaUpload()
+	{
+		//ambil nama user
+		$pengedit = $this->session->userdata('nama');
+		// $new_name = time() . rand(1, 1000) . "_pengantar";
+
+
+		//config Upload
+		$config['upload_path']          = './files/tanda_terima';
+		$config['allowed_types']        = 'pdf';
+		$config['encrypt_name']        = true;
+		$config['remove_space']        = true;
+		$config['max_size']             = 5024;
+		$this->load->library('upload', $config);
+		$this->upload->initialize($config);
+
+		if (($_FILES['file_tt']['name'] != null)) {
+			if ($this->upload->do_upload('file_tt')) {
+				$file_name = $this->upload->data("file_name");
+				$this->db->set('tanda_terima_putusan', $file_name);
+			} else {
+				$this->session->set_flashdata('message', 'Upload file gagal, ekstensi file harus pdf dan ukuran tidak boleh lebih dari 5 mb !');
+				redirect('pa/banding/banding');
+			}
+		} else {
+			$this->session->set_flashdata('message', 'Tidak ada file yang di upload !');
+			redirect('pa/banding/banding/');
+		}
+
+		$id_perkara = $this->input->post('id_perkara');
+		$this->db->set('tanggal_terima_putusan', $this->input->post('tgltrima'));
+		$this->db->where('id_perkara', $id_perkara);
+		$this->db->update('list_perkara');
+
+		$this->session->set_flashdata('message', 'Tanda Terima Putusan Berhasil di Upload !');
+
+		$audittrail = array(
+			'log_id' => '',
+			'isi_log' => "User <b>" . $pengedit . "</b> telah upload tanda terima putusan pada id perkara <b>" . $id_perkara . "</b>",
+			'nama_log' => $pengedit
+		);
+
+		$this->db->set('rekam_log', 'NOW()', FALSE);
+		$this->db->insert('log_audittrail', $audittrail);
+
+		redirect('pa/banding/banding');
+	}
+
 	function multiple_upload()
 	{
 
