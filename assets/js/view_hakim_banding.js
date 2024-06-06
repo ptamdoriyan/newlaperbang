@@ -1,14 +1,10 @@
 $(document).ready(function () {
 
     //data table
-    // $('#tablePerkaraHakim').DataTable();
-    // const prapath = window.location.origin;
-    const prepath = window.location.origin;
-    const path = prepath+"/hakim/hakim/";
     console.log(path);
     //---Tampil data table kegiatan
     let tablePerkaraHakim = $('#tablePerkaraHakim').DataTable({
-        "ajax": `${path}get_data_banding/`,
+        "ajax": `${path}hakim/hakim/get_data_banding/`,
         "columns": [
             {
                 "data": null, "sortable": false,
@@ -36,7 +32,7 @@ $(document).ready(function () {
     $('#tablePerkaraHakim').on('click', '.item_view', function () {
         let data = tablePerkaraHakim.row($(this).parents('tr')).data();
         let id_perkara = data['id_perkara'];
-        window.location.href = `${path}view_berkas_banding/${id_perkara}/`;
+        window.location.href = `${path}hakim/hakim/view_berkas_banding/${id_perkara}/`;
 
     });
     // ------

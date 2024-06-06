@@ -1,15 +1,14 @@
 $(document).ready(function () {
 
-    const path = window.location.origin;
+    // const path = window.location.origin;
     let url = window.location.href;
-    let pecah = url.split('/');
+    let pecah = path.split('/');
 
     // ambil data majelis
     let user_mh;
     let perkara_mh;
-    let perkara_id = pecah[6];
-
-    console.log('perkara id adalah'+perkara_id);
+	let total = pecah.length;
+    let perkara_id = pecah[total-2];
 
     $.ajax({
         type: "post",
@@ -41,7 +40,7 @@ $(document).ready(function () {
         //ambil data-id dan data-judul
         let getdata = $(e.relatedTarget).data('id');
         let getjudul = $(e.relatedTarget).data('judul');
-        let id_perkara = pecah[6];
+        let id_perkara = pecah[total-2];
 
         //embed ke tampilan sebelah kanan
         let tampil = `<embed src="${path}/files/${getdata}" type="application/pdf" width="100%" height="100%">`;
@@ -76,7 +75,7 @@ $(document).ready(function () {
 
             $.ajax({
                 type: "POST",
-                url: `${path}/hakim/hakim/get_catatan`,
+                url: `${path}hakim/hakim/get_catatan`,
                 data: {
                     id_perkara: yyy,
                     nm_berkas: xxx
@@ -99,7 +98,7 @@ $(document).ready(function () {
             let catatan = $('#catatan').val();
             $.ajax({
                 type: "POST",
-                url: `${path}/hakim/hakim/set_catatan`,
+                url: `${path}hakim/hakim/set_catatan`,
                 data: {
                     id_perkara: bbb,
                     nm_berkas: aaa,

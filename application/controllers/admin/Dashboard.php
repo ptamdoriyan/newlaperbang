@@ -23,12 +23,13 @@ class Dashboard extends CI_Controller
 		$data['js'] = 'dashboard_admin.js';
 
 		//dashboard card
-		$data_harian = $this->m_banding->countLapHarianHakim();
-		$putus_harian = $this->m_banding->countPerkaraPutus_banding();
+		$data['masuk_by_tahun'] = $this->m_banding->countPerkaraYear();
+		$data['putus_by_tahun'] = $this->m_banding->countPerkaraPutus_banding();
 		$data['perkara'] = $this->db->get('kategori_perkara')->result_array();
-		$data['data_harian'] = $data_harian;
-		$data['putus_harian'] = $putus_harian;
-		$data['sisa_harian'] = $data_harian - $putus_harian;
+		// $data['sisa_harian'] = $data_harian - $putus_harian;
+
+		// var_dump($data['putus_harian']);
+		// die;
 
 		//dashboard perkara banding
 		$data['perkara_januari']    = $this->m_banding->perkara_januari()->num_rows();

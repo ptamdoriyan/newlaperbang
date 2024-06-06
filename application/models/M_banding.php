@@ -67,20 +67,28 @@ class M_banding extends CI_model
 		}
 	}
 
-	public function countLapHarianHakim()
+	//##By. Riyan
+	public function countPerkaraYear()
 	{
-		$periode_tahun = date('Y');
-		$query = $this->db->query(
-			"SELECT COUNT(no_perkara) as list_perkara
-                               FROM list_perkara
-                               WHERE YEAR(`tgl_register`) = $periode_tahun"
-		);
-		if ($query->num_rows() > 0) {
-			return $query->row()->list_perkara;
-		} else {
-			return 0;
-		}
+		$this->db->select('no_perkara');
+		return $this->db->get_where('list_perkara', ['YEAR(tgl_register)' => date('Y')])->num_rows();
 	}
+
+	//######by Riz Afdian
+	// public function countLapHarianHakim()
+	// {
+	// 	$periode_tahun = date('Y');
+	// 	$query = $this->db->query(
+	// 		"SELECT COUNT(no_perkara) as list_perkara
+	//                            FROM list_perkara
+	//                            WHERE YEAR(`tgl_register`) = $periode_tahun"
+	// 	);
+	// 	if ($query->num_rows() > 0) {
+	// 		return $query->row()->list_perkara;
+	// 	} else {
+	// 		return 0;
+	// 	}
+	// }
 
 	public function countRegis()
 	{
@@ -113,18 +121,9 @@ class M_banding extends CI_model
 	}
 	public function countPerkaraPutus_banding()
 	{
-		$periode_tahun = date('Y');
-		$id_user =  $this->session->userdata('id');
-		$query = $this->db->query(
-			"SELECT COUNT(putusan_banding) as list_perkara
-                               FROM list_perkara
-                               WHERE YEAR(`tgl_reg_banding`) = $periode_tahun"
-		);
-		if ($query->num_rows() > 0) {
-			return $query->row()->list_perkara;
-		} else {
-			return 0;
-		}
+
+		$this->db->select('no_perkara');
+		return $this->db->get_where('list_perkara', ['YEAR(tgl_reg_banding)' => date('Y')])->num_rows();
 	}
 
 	public function countSisaPerkara()
