@@ -3,6 +3,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class M_banding extends CI_model
 {
+
+
+	##model menghitung perkara berdasarkan bulan
+	##by. Riyan
+	public function count_perkara_by_month($month)
+	{
+
+		return $this->db->query("SELECT tgl_reg_banding FROM list_perkara  WHERE ((Month(tgl_reg_banding )= $month)AND (YEAR(tgl_register)=" . date('Y') . " ))")->num_rows();
+	}
+	//############################################
+
 	public function perkara_januari()
 	{
 		return $query = $this->db->query("SELECT * FROM list_perkara WHERE ((Month(tgl_register)=1)AND (YEAR(tgl_register)=" . date('Y') . "))");

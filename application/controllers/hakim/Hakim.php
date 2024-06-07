@@ -91,6 +91,23 @@ class Hakim extends CI_Controller
 		$this->load->view('hakim/footer', $data);
 	}
 
+	//##untuk menghitung perkara berdasarkan bulan
+	//## yg mau dimasukkan di chart
+	//##tapi belum digunakan
+	//## by. Riyan
+	public function get_perkara_by_month($month)
+	{
+		$data = $this->m_banding->count_perkara_by_month($month);
+		$result =  [
+			'response' => 'success',
+			'code' => 600,
+			'data' => $data
+
+		];
+		echo json_encode($result);
+	}
+	//##############################################
+
 	public function get_data_banding()
 	{
 		$data = $this->m_banding->DataBandingHakim();
